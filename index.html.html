@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prova Secreta de Afinidade Literária</title>
+  <style>
+    body {
+      background-color: #f4f0e6;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 2rem;
+      background-image: url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff8e1;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #3e2f1c;
+    }
+    .question {
+      margin-bottom: 1.5rem;
+    }
+    .question h3 {
+      margin-bottom: 0.5rem;
+      color: #4b3621;
+    }
+    .result {
+      display: none;
+      margin-top: 2rem;
+      background: #fef4d7;
+      padding: 1.5rem;
+      border-left: 5px solid #795548;
+    }
+    button {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.5rem 2rem;
+      font-size: 1.2rem;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Prova Secreta de Afinidade Literária</h1>
+    <form id="quiz-form"></form>
+    <button onclick="showResult()">Descobrir meu perfil</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "Se Emma Bovary tivesse Instagram, o que ela postaria?",
+        options: [
+          { text: "Selfie chorando com legenda 'nada me preenche 💔'", perfil: "Holden" },
+          { text: "Reels com unboxing de livros de romance e veneno", perfil: "Zinaida" },
+          { text: "Dancinha com Rodolphe no fundo e hashtag #casadasemrosto", perfil: "Leonardinho" }
+        ]
+      },
+      {
+        q: "Qual seria o maior medo do Holden Caulfield hoje?",
+        options: [
+          { text: "Virar influenciador digital de autenticidade™", perfil: "Holden" },
+          { text: "Ser chamado de 'cringe' por um aluno do fundamental", perfil: "Capitu" },
+          { text: "Dar match no Tinder com a professora de redação", perfil: "Bentinho" }
+        ]
+      },
+      {
+        q: "Qual seria o podcast ideal da Capitu?",
+        options: [
+          { text: "'Olhar de ressaca: tudo sobre relacionamentos turvos'", perfil: "Zinaida" },
+          { text: "'Expondo Bentinho – parte 1 de 87'", perfil: "Bentinho" },
+          { text: "'MachadoCast: como sobreviver a narradores não confiáveis'", perfil: "Capitu" }
+        ]
+      },
+      {
+        q: "Se Zinaida tivesse um programa de culinária, qual seria o prato do dia?",
+        options: [
+          { text: "Estrogonofe emocional com 7 camadas de indecisão", perfil: "Zinaida" },
+          { text: "'Pudim de promessas' com raspas de desprezo", perfil: "Capitu" },
+          { text: "Omelete feito por cinco homens enquanto ela recita Pushkin", perfil: "Leonardinho" }
+        ]
+      },
+      {
+        q: "Qual seria um título alternativo para Noites Brancas?",
+        options: [
+          { text: "'Meu crush não me nota há 4 madrugadas'", perfil: "Zinaida" },
+          { text: "'O rapaz que confundiu carência com romance'", perfil: "O Sonhador" },
+          { text: "'Fanfic russa com final amargo e sem disclaimer'", perfil: "Holden" }
+        ]
+      },
+      {
+        q: "Se as irmãs March tivessem um canal no YouTube, qual seria o nome?",
+        options: [
+          { text: "'Casinha Literária das Irmãs Quebradas'", perfil: "Holden" },
+          { text: "'Costura, Crise & Crônicas'", perfil: "Capitu" },
+          { text: "'Jo escreve, Amy pinta e Beth morre lentamente'", perfil: "Coelho Branco" }
+        ]
+      },
+      {
+        q: "O que Scout faria ao crescer?",
+        options: [
+          { text: "Criaria um blog chamado 'Direito é para todos, racismo não'", perfil: "Holden" },
+          { text: "Processaria metade da cidade de Maycomb", perfil: "Capitu" },
+          { text: "Viraria influenciadora de sapatênis socialmente conscientes", perfil: "Leonardinho" }
+        ]
+      },
+      {
+        q: "Se Bentinho tivesse um grupo no WhatsApp, qual seria o nome?",
+        options: [
+          { text: "'Só eu sei a verdade 😡'", perfil: "Bentinho" },
+          { text: "'Capitu Online às 3h: Coincidência?'", perfil: "Coelho Branco" },
+          { text: "'Bentinho sem limites – apoio emocional e ciúme'", perfil: "Holden" }
+        ]
+      },
+      {
+        q: "Se o narrador do Sargento de Milícias desse uma masterclass, qual seria o tema?",
+        options: [
+          { text: "'Como passar em concurso sem estudar nem viver'", perfil: "Leonardinho" },
+          { text: "'A arte de enrolar com simpatia'", perfil: "Capitu" },
+          { text: "'Lidando com pais disfuncionais e fugas poéticas'", perfil: "O Sonhador" }
+        ]
+      },
+      {
+        q: "Se a Rainha de Copas lesse Dostoiévski, o que aconteceria?",
+        options: [
+          { text: "Mandaria executar o narrador antes do segundo parágrafo", perfil: "Coelho Branco" },
+          { text: "Faria terapia, se apaixonaria por um niilista e sumiria", perfil: "Zinaida" },
+          { text: "Montaria uma monarquia existencial baseada em culpa", perfil: "Bentinho" }
+        ]
+      },
+      {
+        q: "Qual seria o hobby secreto do Sonhador de Noites Brancas?",
+        options: [
+          { text: "Pintar aquarelas que nunca mostra a ninguém", perfil: "O Sonhador" },
+          { text: "Ensaiar encontros que nunca vão acontecer", perfil: "Holden" },
+          { text: "Mandar cartas de amor com pseudônimo", perfil: "Capitu" }
+        ]
+      },
+      {
+        q: "Como você reagiria ao cair num buraco com destino incerto?",
+        options: [
+          { text: "Pânico! E faria listas mentais na queda", perfil: "Coelho Branco" },
+          { text: "Aceitaria o caos poeticamente, aguardando um cavaleiro literário", perfil: "O Sonhador" },
+          { text: "Improvisaria uma dancinha sarcástica no meio da queda", perfil: "Leonardinho" }
+        ]
+      },
+      {
+        q: "Se você escrevesse suas memórias, qual seria o tom predominante?",
+        options: [
+          { text: "Indignação e entrelinhas venenosas", perfil: "Capitu" },
+          { text: "Drama, paixão e uma pitada de autocomiseração", perfil: "Bentinho" },
+          { text: "Devaneios, esperanças e noites estreladas", perfil: "O Sonhador" }
+        ]
+      },
+      {
+        q: "Se nossa Sociedade fosse um gênero literário, qual seria?",
+        options: [
+          { text: "Gótico culinário com sarcasmo e molho madeira", perfil: "Capitu" },
+          { text: "Realismo mágico bêbado de conhaque francês", perfil: "Zinaida" },
+          { text: "Experimentalismo burlesco com cheiro de livro velho", perfil: "Leonardinho" }
+        ]
+      }
+    ];
+
+    const profiles = {
+      "Capitu": 0, "Bentinho": 0, "Holden": 0, "Leonardinho": 0,
+      "Zinaida": 0, "O Sonhador": 0, "Coelho Branco": 0
+    };
+
+    const descriptions = {
+  "Capitu": `
+    Você é leitura nas entrelinhas, mistério temperado com ironia fina.  
+    Observa tudo, comenta pouco — mas quando fala, desarma. Você é estrategista do afeto, com um olhar que já leu mais do que mostra.
+    <br><br><strong>Rolê ideal:</strong> Clube do livro, mas só com livros que deixem mais perguntas do que respostas.  
+     <br><br><strong>Alerta:</strong> Pode acabar se metendo em narrativas nas quais você é o mistério — e não o protagonista.
+  `,
+  "Bentinho": `
+    Você é emoção pura envolta em argumento. Questionador, ciumento, profundamente introspectivo, escreve cartas mentais para tudo que sente.
+    Tem talento para construir teorias... e complicações.  
+    <br><br><strong>Rolê ideal:</strong> Sessão de terapia literária com café forte e playlist dramática.  
+     <br><br><strong>Alerta:</strong> Cuidado com os pensamentos em looping e com narrativas onde você tem razão demais.
+  `,
+  "Holden": `
+    Você é o anti-herói literário, cético, irônico e quase sempre de saco cheio.  
+    Tem uma sensibilidade aguda disfarçada de sarcasmo. Acha tudo “meio falso”, mas se encanta com coisas pequenas, como patinhos no inverno.  
+    <br><br><strong>Rolê ideal:</strong> Conversa existencial às 2h da manhã com alguém que ainda acredita no mundo.  
+     <br><br><strong>Alerta:</strong> O tédio pode virar isolamento — e a ironia, armadura.
+  `,
+  "Leonardinho": `
+    Você leu o quiz como quem conta vantagem e marca encontro.  
+    Charmoso, improvisador, adora uma malandragem literária. Vai de boteco à biblioteca sem perder o estilo.  
+    <br><br><strong>Rolê ideal:</strong> Sarau boêmio regado a piadas internas e pão com mortadela filosófico.  
+     <br><br><strong>Alerta:</strong> Cuidado para não virar um meme da própria esperteza.
+  `,
+  "Zinaida": `
+    Você é poesia em combustão. Carismática, contraditória, intensa.  
+    Atrai orbitantes e coleciona histórias como quem acende fósforos no escuro. Ama a ideia de amar.  
+    <br><br><strong>Rolê ideal:</strong> Piquenique teatral com recital espontâneo e drama real.  
+     <br><br><strong>Alerta:</strong> Cuidado para não ferir (ou se ferir) nos jogos que cria.
+  `,
+  "O Sonhador": `
+    Você vive nas margens do livro e nos parênteses do parágrafo.  
+    Cultiva delicadezas como quem escreve cartas para nuvens. Tem esperança mesmo quando tudo desaba.  
+    <br><br><strong>Rolê ideal:</strong> Caminhada solitária com trilha sonora instrumental e final aberto.  
+     <br><br><strong>Alerta:</strong> Não viva tanto no imaginário a ponto de perder os encontros reais.
+  `,
+  "Coelho Branco": `
+    Você chegou atrasado ao quiz, ficou nervoso, leu tudo correndo...  
+    Mas tem um bom coração e um senso de urgência que mobiliza mundos. Está sempre com pressa e um leve caos interno.  
+    <br><br><strong>Rolê ideal:</strong> Escape room literário com lista de tarefas e prazo vencido.  
+     <br><br><strong>Alerta:</strong> Desacelere — a literatura (e a vida) não precisam ser cronômetro.
+  `
+};
+
+
+    const form = document.getElementById("quiz-form");
+
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      const h3 = document.createElement("h3");
+      h3.innerText = `${i + 1}. ${q.q}`;
+      div.appendChild(h3);
+
+      q.options.forEach((opt) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q" + i;
+        input.value = opt.perfil;
+        label.appendChild(input);
+        label.append(" " + opt.text);
+        div.appendChild(label);
+      });
+
+      form.appendChild(div);
+    });
+
+    function showResult() {
+      const formData = new FormData(form);
+      const profileCount = { ...profiles };
+
+      for (const [key, value] of formData.entries()) {
+        profileCount[value]++;
+      }
+
+      const topProfile = Object.entries(profileCount).sort((a, b) => b[1] - a[1])[0][0];
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `<h2>Seu perfil é: ${topProfile}</h2><p>${descriptions[topProfile]}</p>`;
+    }
+  </script>
+</body>
+</html>
